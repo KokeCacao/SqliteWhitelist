@@ -1,0 +1,6 @@
+name: SqliteWhitelist
+main: com.kokicraft.SqliteWhitelist.Main
+version: 0.0.1
+api-version: 1.19
+description: SqliteWhitelist.
+author: Koke_Cacao

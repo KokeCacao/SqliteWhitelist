@@ -1,0 +1,4 @@
+Sqlite:
+  path: '...'
+Whitelist:
+  KickMessage: "You are not registered to MCStuco. Please visit our official website: https://www.mcstuco.net"
