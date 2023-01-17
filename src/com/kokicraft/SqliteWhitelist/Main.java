@@ -12,6 +12,7 @@ public class Main extends JavaPlugin {
 
 	public void onEnable() {
 		plugin = this;
+    connectDB();
 		registerEvent();
 		this.getConfig();
 		this.saveDefaultConfig();
