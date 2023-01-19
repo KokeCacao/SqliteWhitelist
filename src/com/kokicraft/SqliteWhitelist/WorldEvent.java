@@ -31,7 +31,7 @@ public class WorldEvent implements Listener {
 
     if (plugin.getConfig().getBoolean("Whitelist.CheckUUID")) {
       try {
-        DBConnect.Query q = Main.db.queryDB("SELECT * FROM intro2mc_student WHERE uuid = ?;", uuid);
+        DBConnect.Query q = Main.db.queryDB("SELECT * FROM intro2mc_student WHERE uuid = ?;", uuid.toString());
         if (!q.next()) {
           event.disallow(PlayerLoginEvent.Result.KICK_OTHER, plugin.getConfig().getString("Whitelist.KickMessageUUID"));
           q.close();
@@ -39,9 +39,7 @@ public class WorldEvent implements Listener {
         }
         q.close();
       } catch (SQLException e) {
-        plugin.getLogger().severe("[SqliteWhitelist] Error while checking whitelist: " + e.getMessage());
-        event.disallow(PlayerLoginEvent.Result.KICK_OTHER,
-            "[SqliteWhitelist] Error while checking whitelist: " + e.getMessage());
+        plugin.getLogger().severe("Error while checking whitelist (plugin will disable): " + e.getMessage());
         return;
       }
     }
@@ -56,9 +54,7 @@ public class WorldEvent implements Listener {
         }
         q.close();
       } catch (SQLException e) {
-        plugin.getLogger().severe("[SqliteWhitelist] Error while checking whitelist: " + e.getMessage());
-        event.disallow(PlayerLoginEvent.Result.KICK_OTHER,
-            "[SqliteWhitelist] Error while checking whitelist: " + e.getMessage());
+        plugin.getLogger().severe("Error while checking whitelist (plugin will disable): " + e.getMessage());
         return;
       }
     }

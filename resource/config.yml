@@ -1,7 +1,7 @@
 Sqlite:
   path: '...'
 Whitelist:
-  CheckUUID: false
-  CheckName: true
+  CheckUUID: true
+  CheckName: false
   KickMessageUUID: "You are not registered to MCStuco. Please visit our official website: https://www.mcstuco.net"
   KickMessageName: "You are not registered to MCStuco. Please visit our official website: https://www.mcstuco.net"
