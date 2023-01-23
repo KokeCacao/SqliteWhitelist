@@ -6,19 +6,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
 
-	public static Main plugin;
+  public static Main plugin;
   public static DBConnect db;
-	public Logger log = Logger.getLogger("Minecraft");
+  public Logger log = Logger.getLogger("Minecraft");
 
-	public void onEnable() {
-		plugin = this;
+  public void onEnable() {
+    plugin = this;
     connectDB();
-		registerEvent();
-		this.getConfig();
-		this.saveDefaultConfig();
-		registerCommand();
-		log.info("[SqliteWhitelist] Version " + this.getDescription().getVersion() + " has been enabled.");
-	}
+    registerEvent();
+    this.getConfig();
+    this.saveDefaultConfig();
+    registerCommand();
+    log.info("[SqliteWhitelist] Version " + this.getDescription().getVersion() + " has been enabled.");
+  }
 
   public void connectDB() {
     try {
@@ -28,14 +28,14 @@ public class Main extends JavaPlugin {
     }
   }
 
-	public void registerEvent() {
-		getServer().getPluginManager().registerEvents(new WorldEvent(this), this);
-	}
+  public void registerEvent() {
+    getServer().getPluginManager().registerEvents(new WorldEvent(this), this);
+  }
 
-	public void registerCommand() {
-	}
+  public void registerCommand() {
+  }
 
-	public void onDisable() {
-		log.info("[SqliteWhitelist] SqliteWhitelist has been disabled.");
-	}
+  public void onDisable() {
+    log.info("[SqliteWhitelist] SqliteWhitelist has been disabled.");
+  }
 }
