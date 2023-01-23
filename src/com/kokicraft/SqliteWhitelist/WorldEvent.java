@@ -29,34 +29,37 @@ public class WorldEvent implements Listener {
     UUID uuid = event.getPlayer().getUniqueId();
     String name = event.getPlayer().getName();
 
-    if (plugin.getConfig().getBoolean("Whitelist.CheckUUID")) {
-      try {
+    try {
+      boolean authorized = false;
+
+      if (plugin.getConfig().getBoolean("Whitelist.CheckUUID")) {
         DBConnect.Query q = Main.db.queryDB("SELECT * FROM intro2mc_student WHERE uuid = ?;", uuid.toString());
-        if (!q.next()) {
-          event.disallow(PlayerLoginEvent.Result.KICK_OTHER, plugin.getConfig().getString("Whitelist.KickMessageUUID"));
-          q.close();
-          return;
-        }
+        authorized ||= q.next();
         q.close();
-      } catch (SQLException e) {
-        plugin.getLogger().severe("Error while checking whitelist (plugin will disable): " + e.getMessage());
-        return;
+
+        DBConnect.Query qinvited = Main.db.queryDB("SELECT * FROM intro2mc_invitedstudent WHERE uuid = ?;", uuid.toString());
+        authorized ||= qinvited.next();
+        qinvited.close();
       }
-    }
-    
-    if (plugin.getConfig().getBoolean("Whitelist.CheckName")) {
-      try {
+
+      if (plugin.getConfig().getBoolean("Whitelist.CheckName")) {
         DBConnect.Query q = Main.db.queryDB("SELECT * FROM intro2mc_student WHERE IGN = ?;", name);
-        if (!q.next()) {
-          event.disallow(PlayerLoginEvent.Result.KICK_OTHER, plugin.getConfig().getString("Whitelist.KickMessageName"));
-          q.close();
-          return;
-        }
+        authorized ||= q.next();
         q.close();
-      } catch (SQLException e) {
-        plugin.getLogger().severe("Error while checking whitelist (plugin will disable): " + e.getMessage());
+
+        DBConnect.Query qinvited = Main.db.queryDB("SELECT * FROM intro2mc_invitedstudent WHERE IGN = ?;", name);
+        authorized ||= qinvited.next();
+        qinvited.close();
+      }
+
+      if (!authorized) {
+        event.disallow(PlayerLoginEvent.Result.KICK_OTHER, plugin.getConfig().getString("Whitelist.KickMessageName"));
         return;
       }
+
+    } catch (SQLException e) {
+      plugin.getLogger().severe("Error while checking whitelist (plugin will disable): " + e.getMessage());
+      return;
     }
     
   }
