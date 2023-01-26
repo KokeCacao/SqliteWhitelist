@@ -35,27 +35,27 @@ public class WorldEvent implements Listener {
       if (plugin.getConfig().getBoolean("Whitelist.CheckUUID")) {
         boolean uuidAuthorized = false;
         DBConnect.Query q = Main.db.queryDB("SELECT * FROM intro2mc_student WHERE uuid = ?;", uuid.toString());
-        uuidAuthorized ||= q.next();
+        uuidAuthorized |= q.next();
         q.close();
 
         DBConnect.Query qinvited = Main.db.queryDB("SELECT * FROM intro2mc_invitedstudent WHERE uuid = ?;", uuid.toString());
-        uuidAuthorized ||= qinvited.next();
+        uuidAuthorized |= qinvited.next();
         qinvited.close();
         
-        authorized &&= uuidAuthorized;
+        authorized &= uuidAuthorized;
       }
 
       if (plugin.getConfig().getBoolean("Whitelist.CheckName")) {
         boolean nameAuthorized = false;
         DBConnect.Query q = Main.db.queryDB("SELECT * FROM intro2mc_student WHERE IGN = ?;", name);
-        nameAuthorized ||= q.next();
+        nameAuthorized |= q.next();
         q.close();
 
         DBConnect.Query qinvited = Main.db.queryDB("SELECT * FROM intro2mc_invitedstudent WHERE IGN = ?;", name);
-        nameAuthorized ||= qinvited.next();
+        nameAuthorized |= qinvited.next();
         qinvited.close();
         
-        authorized &&= nameAuthorized;
+        authorized &= nameAuthorized;
       }
 
       if (!authorized) {
